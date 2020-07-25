@@ -35,5 +35,5 @@ publish:
 	npm run build && npm test 
 	npm version $(kind)
 	cp ./package.json ./dist
-	(cd dist; npm publish) && rm -fr ./dist
+	npm publish ./dist && rm -fr ./dist
 	git push && git push --tags
