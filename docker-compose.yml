@@ -1,0 +1,9 @@
+version: '3'
+services:
+  package:
+    build: .
+    image: connected-react-router
+    container_name: connected-react-router
+    entrypoint: npm run watch
+    volumes:
+    - .:/app:cached
