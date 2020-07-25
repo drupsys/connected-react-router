@@ -32,7 +32,8 @@ test:
 
 .PHONY: publish
 publish:
+	npm run build && npm test 
 	npm version $(kind)
-	tsc && cp ./package.json ./dist
+	cp ./package.json ./dist
 	(cd dist; npm publish) && rm -fr ./dist
 	git push && git push --tags
