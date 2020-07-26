@@ -2,13 +2,13 @@ import { Location, LocationState, Path, History } from "history";
 import IAction from "./IAction";
 
 export enum HistoryActionType {
-  HISTORY_CREATED = "HISTORY_CREATED",
-  HISTORY_UPDATED = "HISTORY_UPDATED",
-  HISTORY_PUSHED = "HISTORY_PUSHED",
-  HISTORY_REPLACED = "HISTORY_REPLACED",
-  HISTORY_GO = "HISTORY_GO",
-  HISTORY_BACK = "HISTORY_BACK",
-  HISTORY_FORWARD = "HISTORY_FORWARD",
+  HISTORY_CREATED = "@router/HISTORY_CREATED",
+  HISTORY_UPDATED = "@router/HISTORY_UPDATED",
+  HISTORY_PUSHED = "@router/HISTORY_PUSHED",
+  HISTORY_REPLACED = "@router/HISTORY_REPLACED",
+  HISTORY_GO = "@router/HISTORY_GO",
+  HISTORY_BACK = "@router/HISTORY_BACK",
+  HISTORY_FORWARD = "@router/HISTORY_FORWARD",
 }
 
 export interface IHistoryActionCreated extends IAction<HistoryActionType.HISTORY_CREATED> {
