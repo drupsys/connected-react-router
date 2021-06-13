@@ -20,7 +20,7 @@ down:
 
 .PHONY: shell
 shell:
-	docker exec -it servicer sh
+	docker exec -it connected-react-router sh
 
 .PHONY: logs
 logs:
@@ -28,7 +28,7 @@ logs:
 
 .PHONY: test
 test:
-	docker exec -it servicer npm test -- -t "$(filter)"
+	docker exec -it connected-react-router npm test -- -t "$(filter)"
 
 .PHONY: publish
 publish:

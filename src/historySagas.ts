@@ -1,6 +1,6 @@
 import { History, Location } from "history";
 import { each, compact } from "lodash";
-import { race, take, put, fork } from "redux-saga/effects";
+import { race, take, put, fork, StrictEffect } from "redux-saga/effects";
 import { eventChannel } from "redux-saga";
 import { IHistoryActionTypes, HistoryActionType, IHistoryActionCreated, historyUpdated } from "./actions";
 
@@ -31,8 +31,8 @@ const changeHistory = (history: History) => (event: IHistoryActionTypes) => {
   }
 };
 
-function* locationSaga(history: History<History.PoorMansUnknown>) {
-  const channel = eventChannel<Location<History.PoorMansUnknown>>((emitter) => history.listen(emitter));
+function* locationSaga(history: History): Generator<StrictEffect, void, Location> {
+  const channel = eventChannel<Location>((emitter) => history.listen(emitter));
 
   while (true) {
     const location = yield take(channel);
