@@ -44,7 +44,7 @@
     "@types/redux-saga": "^0.10.5",
     "@types/redux-saga-tester": "^1.0.2",
     "jest": "^26.1.0",
-    "npm": "^7.17.0",
+    "npm": "^8.11.0",
     "redux-saga-tester": "^1.0.845",
     "typescript": "^3.9.5"
   }
