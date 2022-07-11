@@ -1,52 +1,44 @@
-import { History, Location } from "history";
 import { each, compact } from "lodash";
-import { race, take, put, fork, StrictEffect } from "redux-saga/effects";
-import { eventChannel } from "redux-saga";
-import { IHistoryActionTypes, HistoryActionType, IHistoryActionCreated, historyUpdated } from "./actions";
+import { NavigateFunction } from "react-router-dom";
+import { race, take } from "redux-saga/effects";
+import { IHistoryActionTypes, HistoryActionType, IHistoryActionCreated } from "./actions";
 
-const changeHistory = (history: History) => (event: IHistoryActionTypes) => {
+const changeHistory = (navigate: NavigateFunction) => (event: IHistoryActionTypes) => {
   switch (event.type) {
+    case HistoryActionType.NAVIGATED: {
+      const { to, options } = event.payload;
+      navigate(to, options);
+      return;
+    }
     case HistoryActionType.HISTORY_PUSHED: {
       const { path, state } = event.payload;
-      history.push(path, state);
+      navigate(path, { state });
       return;
     }
     case HistoryActionType.HISTORY_REPLACED: {
       const { path, state } = event.payload;
-      history.replace(path, state);
+      navigate(path, { replace: true, state });
       return;
     }
     case HistoryActionType.HISTORY_GO: {
-      history.go(event.payload.n);
+      navigate(event.payload.n);
       return;
     }
     case HistoryActionType.HISTORY_BACK: {
-      history.goBack();
+      navigate(-1);
       return;
     }
     case HistoryActionType.HISTORY_FORWARD: {
-      history.goForward();
+      navigate(1);
       return;
     }
   }
 };
 
-function* locationSaga(history: History): Generator<StrictEffect, void, Location> {
-  const channel = eventChannel<Location>((emitter) => history.listen(emitter));
-
-  while (true) {
-    const location = yield take(channel);
-    yield put(historyUpdated(location));
-  }
-}
-
 type IEvents = IHistoryActionTypes[];
 
 function* historySagas() {
-  const { payload: { history } }: IHistoryActionCreated = yield take(HistoryActionType.HISTORY_CREATED);
-
-  yield put(historyUpdated(history.location));
-  yield fork(locationSaga, history);
+  const { payload: { navigate } }: IHistoryActionCreated = yield take(HistoryActionType.HISTORY_CREATED);
 
   while (true) {
     const events: IEvents = yield race([
@@ -57,7 +49,7 @@ function* historySagas() {
       take(HistoryActionType.HISTORY_FORWARD),
     ]);
 
-    each(compact(events), changeHistory(history));
+    each(compact(events), changeHistory(navigate));
   }
 }
 

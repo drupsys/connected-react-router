@@ -8,6 +8,7 @@ export interface IHistory {
 
 export const initialState: IHistory = {
   location: {
+    key: "",
     hash: "",
     pathname: "/",
     search: "",
@@ -18,10 +19,6 @@ export const initialState: IHistory = {
 type ReducerType = Reducer<IHistory, IHistoryActionTypes>;
 const historyReducer: ReducerType = (state = initialState, action) => {
   switch (action.type) {
-    case HistoryActionType.HISTORY_CREATED:
-      return {
-        location: action.payload.history.location,
-      };
     case HistoryActionType.HISTORY_UPDATED:
       return {
         location: action.payload.location,

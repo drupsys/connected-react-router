@@ -1,7 +1,9 @@
-import { Location, LocationState, Path, History } from "history";
+import { Location, Path } from "history";
+import { NavigateFunction, NavigateOptions, To } from "react-router-dom";
 import IAction from "./IAction";
 
 export enum HistoryActionType {
+  NAVIGATED = "@router/NAVIGATED",
   HISTORY_CREATED = "@router/HISTORY_CREATED",
   HISTORY_UPDATED = "@router/HISTORY_UPDATED",
   HISTORY_PUSHED = "@router/HISTORY_PUSHED",
@@ -11,9 +13,16 @@ export enum HistoryActionType {
   HISTORY_FORWARD = "@router/HISTORY_FORWARD",
 }
 
+export interface INavigateAction extends IAction<HistoryActionType.NAVIGATED> {
+  payload: {
+    to: To;
+    options?: NavigateOptions;
+  };
+}
+
 export interface IHistoryActionCreated extends IAction<HistoryActionType.HISTORY_CREATED> {
   payload: {
-    history: History;
+    navigate: NavigateFunction;
   };
 }
 
@@ -23,8 +32,11 @@ export interface IHistoryActionUpdated extends IAction<HistoryActionType.HISTORY
   };
 }
 
+/**
+ * @deprecated
+ */
 export interface IHistoryActionPush<
-  TState extends LocationState = {}
+  TState = {}
 > extends IAction<HistoryActionType.HISTORY_PUSHED> {
   payload: {
     path: Path;
@@ -32,8 +44,11 @@ export interface IHistoryActionPush<
   };
 }
 
+/**
+ * @deprecated
+ */
 export interface IHistoryActionReplace<
-  TState extends LocationState = {}
+  TState = {}
 > extends IAction<HistoryActionType.HISTORY_REPLACED> {
   payload: {
     path: Path;
@@ -47,11 +62,19 @@ export interface IHistoryActionGo extends IAction<HistoryActionType.HISTORY_GO> 
   };
 }
 
+/**
+ * @deprecated
+ */
 export interface IHistoryActionBack extends IAction<HistoryActionType.HISTORY_BACK> {}
 
+/**
+ * @deprecated
+ */
 export interface IHistoryActionForward extends IAction<HistoryActionType.HISTORY_FORWARD> {}
 
-type IHistoryActionTypes = IHistoryActionCreated
+type IHistoryActionTypes =
+  | INavigateAction
+  | IHistoryActionCreated
   | IHistoryActionUpdated
   | IHistoryActionPush
   | IHistoryActionReplace

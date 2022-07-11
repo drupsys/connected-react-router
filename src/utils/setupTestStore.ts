@@ -1,6 +1,4 @@
-import { historyCreated } from "../actions/HistoryActions";
 import historySagas from "../historySagas";
-import { createMemoryHistory } from "history";
 import ReduxSagaTester from "redux-saga-tester";
 import { ReducersMapObject } from "redux";
 
@@ -19,13 +17,11 @@ const setupTestStore = <S extends object>(rootReducer: ReducersMapObject<S, any>
   const sagas = new SagaTester<S>({ reducers });
 
   sagas.start(historySagas);
-  const history = createMemoryHistory();
-  sagas.dispatch(historyCreated(history));
   if (clearEvents) {
     sagas.clearActions();
   }
 
-  return { sagas, history };
+  return { sagas };
 };
 
 export default setupTestStore;

@@ -1,14 +1,16 @@
 import React, { Fragment, FunctionComponent, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import IHistoryDispatchProps from "./IHistoryDispatchProps";
 import IHistoryProps from "./IHistoryProps";
 
 type ComponentType = FunctionComponent<IHistoryProps & IHistoryDispatchProps>;
-const History: ComponentType = ({ children, initialise }) => {
-  const history = useHistory();
+const History: ComponentType = ({ children, createHistory, updateHistory }) => {
+  updateHistory(useLocation());
+
+  const navigate = useNavigate();
   useEffect(() => {
-    initialise(history);
-  }, []);
+    createHistory(navigate);
+  }, [])
 
   return <Fragment>{children}</Fragment>;
 };
