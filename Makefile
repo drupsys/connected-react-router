@@ -32,7 +32,7 @@ test:
 
 .PHONY: publish
 publish:
-	npm run build && npm test 
+	npm run build
 	npm version $(kind)
 	cp ./package.json ./dist
 	npm publish ./dist && rm -fr ./dist

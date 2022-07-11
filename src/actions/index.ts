@@ -1,5 +1,6 @@
 export type {
   default as IHistoryActionTypes,
+  INavigateAction,
   IHistoryActionCreated,
   IHistoryActionUpdated,
   IHistoryActionPush,
@@ -10,6 +11,7 @@ export type {
 } from "./IHistoryActionTypes";
 export { HistoryActionType } from "./IHistoryActionTypes";
 export {
+  navigate,
   historyCreated,
   historyUpdated,
   historyPush,
